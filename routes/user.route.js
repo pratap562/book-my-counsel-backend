@@ -78,8 +78,11 @@ user.post('/login', async (req, res) => {
             return res.status(401).json({ 'err': 'bad credentials' })
         }
         // result == true
-        let token = jwt.sign({ email, username: userExist.username, role: 'user' }, process.env.SECRETKEY, { expiresIn: 60 })
+        console.log(userExist[0]._id, 'iiiii');
+        console.log(userExist[0]._id.toString(), 'iiiii');
+        let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: 'user' }, process.env.SECRETKEY, { expiresIn: 60 })
         let refresh_token = jwt.sign({ email, username: userExist.username }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
+        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.cookie('token', token, { httpOnly: true })
         res.cookie('refresh_token', refresh_token, { httpOnly: true })
         return res.send({ 'msg': 'signin sucessfull', token, refresh_token })
