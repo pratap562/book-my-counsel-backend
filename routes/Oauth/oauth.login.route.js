@@ -1,6 +1,7 @@
 const { passportForLogin } = require('../../config/google-oauth2')
 const oauthForLogin = require('express').Router()
 const UserModel = require('../../Models/User.Model')
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const setIntent = (req, res, next) => {
@@ -25,27 +26,13 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
         if (userExist.length >= 1) {
             // res.cookie('isSignup', 1, { maxAge: 20000, httpOnly: true, secure: true });
 
-            console.log('hello');
+            let token = jwt.sign({ email: userExist[0].email, role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 })
+            let refresh_token = jwt.sign({ email: userExist[0].email, role: userExist[0].role }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
 
-            let data = await fetch(`${process.env.OWN_URL}/user/login`, {
-                method: "POST",
-                body: JSON.stringify(body),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            data = await data.json()
-            console.log(data);
-
-            if (data.err) {
-                // handel server issue
-            }
-            if (data.msg == 'signin sucessfull') {
-
-                res.cookie('justLogdin', true, { maxAge: 1000 * 60 * 60 });
-                res.cookie('token', data.token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: true });
-                res.cookie('refresh_token', data.refresh_token, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true, secure: true });
-                return res.redirect(`${process.env.NEXT_URL}`)
-            }
-
+            res.cookie('justLogdin', true, { maxAge: 1000 * 60 * 60 });
+            res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: true });
+            res.cookie('refresh_token', refresh_token, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true, secure: true });
+            return res.redirect(`${process.env.NEXT_URL}`)
 
         } else {
             console.log('oyeee');

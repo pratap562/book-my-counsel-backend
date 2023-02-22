@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-require('dotenv').config()
 
-let connection = mongoose.connect(`${process.env.mongoUrl}/main?retryWrites=true&w=majority`)
+let connection = mongoose.connect(`${process.env.mongoUrl}/test?retryWrites=true`)
 
 module.exports = connection

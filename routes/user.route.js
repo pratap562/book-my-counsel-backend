@@ -32,8 +32,9 @@ user.post('/signup', async (req, res) => {
     }
 
     // password hashing
-    console.log('pasword hashing')
+    console.log('pasword hashing', password)
     bcrypt.hash(password, 2, async function (err, hash) {
+        console.log(hash, 'hash')
         if (err) {
             return res.status(500).json({ 'err': 'something went wrong try after some time' });
         }
@@ -66,10 +67,14 @@ user.post('/login', async (req, res) => {
         return res.status(404).json({ 'err': "user don't exist" })
     }
     console.log(userExist[0]);
+    console.log(userExist, password, 'h')
 
     bcrypt.compare(password, userExist[0].password, function (err, result) {
         // result == false
-        if (err) {
+        console.log(err);
+        console.log(result);
+        if (!result) {
+            console.log('err:', err)
             return res.status(401).json({ 'err': 'bad credentials' })
         }
         // result == true

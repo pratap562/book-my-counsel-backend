@@ -17,8 +17,8 @@ const mid = (req, res, next) => {
 }
 passportForLogin.use(mid)
 passportForLogin.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENTID,
-    clientSecret: process.env.GOOGLE_CLIENTSECRET,
+    clientID: process.env.clientID,
+    clientSecret: process.env.clientSecret,
     callbackURL: 'http://localhost:3200/auth/google/login/callback',
     passReqToCallback: true
 },
