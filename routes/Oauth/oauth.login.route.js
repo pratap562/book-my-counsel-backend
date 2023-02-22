@@ -26,8 +26,8 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
         if (userExist.length >= 1) {
             // res.cookie('isSignup', 1, { maxAge: 20000, httpOnly: true, secure: true });
 
-            let token = jwt.sign({ email: userExist[0].email, role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 })
-            let refresh_token = jwt.sign({ email: userExist[0].email, role: userExist[0].role }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
+            let token = jwt.sign({ email: userExist[0].email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 })
+            let refresh_token = jwt.sign({ email: userExist[0].email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
 
             res.cookie('justLogdin', true, { maxAge: 1000 * 60 * 60 });
             res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: true });

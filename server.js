@@ -19,7 +19,11 @@ const port = 3200
 //     origin: 'https://elaborate-tiramisu-ba3b1a.netlify.app',
 //     credentials: true
 // }))
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 // httpserver.use(cors)
 app.use(express.json())
 app.use(cookieParser())
