@@ -5,7 +5,10 @@
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
-    "nodemon": "^2.0.20"
+    "mongoose": "^6.9.2",
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0"
   },
   "scripts": {
     "start": "node server.js"
@@ -13,7 +16,6 @@
   "name": "book-my-counsel",
   "version": "1.0.0",
   "main": "server.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pratap562/book-my-counsel.git"

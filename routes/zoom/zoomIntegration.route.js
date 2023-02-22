@@ -1,8 +1,8 @@
 const zoomIntegration = require('express').Router()
 require('dotenv').config()
-const clientId = process.env.clientId;
-const clientSecret = process.env.clientSecret;
-const redirectUri = process.env.redirectUri;
+const clientId = process.env.ZOOM_CLIENTID;
+const clientSecret = process.env.ZOOM_CLIENTSECRET;
+const redirectUri = process.env.ZOOM_REDIRECTURI;
 const tokenUrl = 'https://zoom.us/oauth/token';
 
 // const requestBody = {
