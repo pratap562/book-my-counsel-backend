@@ -7,7 +7,7 @@ const generateotp = async (email, hash, name) => {
   //generating verify token
   let emailVarifyToken = jwt.sign({ email, hash, name }, process.env.EMAILVARIFICATION, { expiresIn: 60 * 10 })
 
-  let varfLink = `https://jungle-green-colt-cape.cyclic.app/emailverify?token=${emailVarifyToken}`
+  let varfLink = `${process.env.EMAILVARIFY_SERVER}/emailverify?token=${emailVarifyToken}`
   let htmll = `<!DOCTYPE html>
     <html>
       <head>

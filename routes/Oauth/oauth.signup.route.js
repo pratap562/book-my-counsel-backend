@@ -40,9 +40,7 @@ oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('googl
         // if(data.err){
 
         // }
-        console.log('hi')
         let userExist = await UserModel.find({ email })
-        console.log('hi')
         if (userExist.length >= 1) {
             console.log('user exist dont need signup');
             res.cookie('userExist', true, { maxAge: 20000 });
@@ -50,6 +48,7 @@ oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('googl
         } else {
             let newUser = new UserModel({ name, email, password })
             try {
+                console.log(newUser, 'newuser')
                 await newUser.save()
                 res.cookie('isSignup', 1, { maxAge: 20000 });
                 console.log('work done')

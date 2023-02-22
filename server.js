@@ -1,34 +1,57 @@
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
 const express = require('express')
-const { zoomIntegration } = require('./routes/zoom/zoomIntegration.route')
-require('dotenv').config()
-const cookieparser = require('cookie-parser')
-const port = process.env.PORT || 3200
-const oauthForLogin = require('./routes/Oauth/oauth.login.route')
-const oauthForSignup = require('./routes/Oauth/oauth.signup.route')
-const connection = require('./config/db')
+
+const { httpserver, app } = require('./config/httpConnection')
 const user = require('./routes/user.route')
-const app = express()
-app.use(cookieparser())
+const connection = require('./config/db')
+const authenticate = require('./middleware/Authentication/auth')
+const autharize = require('./middleware/Authorization/autharize')
+const oauthForSignup = require('./routes/Oauth/oauth.signup.route')
+const oauthForLogin = require('./routes/Oauth/oauth.login.route')
+require('dotenv').config()
+const port = 3200
 
-// app.use(cors())
+
+
+// let users = { 0: [] }
+// app.use(cors({
+//     origin: 'https://elaborate-tiramisu-ba3b1a.netlify.app',
+//     credentials: true
+// }))
+app.use(cors())
+// httpserver.use(cors)
 app.use(express.json())
-
-app.use('/user', user)
-// google Oauth
+app.use(cookieParser())
 app.use('/auth/google/login', oauthForLogin)
 app.use('/auth/google/signup', oauthForSignup)
 
-app.use('/auth/zoom/integration/callback', zoomIntegration)
-
 app.get('/', (req, res) => {
-    res.send({ 'msg': 'welcome' })
+    res.send({ 'msg': 'welocme' })
+})
+app.use('/user', user)
+// app.use('/chat',)
+
+app.get('/islogdin', authenticate, (req, res) => {
+    res.send({ 'msg': 'logdin' })
 })
 
-app.listen(port, async () => {
+app.get('/reports', authenticate, (req, res) => {
+    res.send({ 'data': 'reports' })
+})
+
+
+app.get('/alldata', authenticate, autharize(['admin']), (req, res) => {
+    res.send({ 'data': 'all-data' })
+})
+
+
+httpserver.listen(port, async () => {
     try {
         await connection
         console.log(`your db is connected to port ${port}`);
+        // runsocket()
     } catch (err) {
-        console.log('err', err)
+        console.log('err on connecting db:', err);
     }
 })

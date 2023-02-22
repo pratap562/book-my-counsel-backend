@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const AdvocateModel = mongoose.model('advocate', mongoose.Schema({
     user_id: { type: String, required: true },
-    zoom_id: { type: String, required: true },
+    zoom_id: String,
     name: { type: String, required: true },
     picture: { type: String, required: true },
     role_title: { type: String, required: true },
