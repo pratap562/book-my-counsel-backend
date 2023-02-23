@@ -85,7 +85,16 @@ user.post('/login', async (req, res) => {
         // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.cookie('token', token, { httpOnly: true })
         res.cookie('refresh_token', refresh_token, { httpOnly: true })
-        return res.send({ 'msg': 'signin sucessfull', token, refresh_token })
+
+        let stage = userExist[0].stage
+        if (stage == 1) {
+            return res.redirect(`${process.env.NEXT_URL}/signinsignup/role`)
+        } else if (stage == 2) {
+            return res.redirect(`${process.env.NEXT_URL}/notveryfied/notveryfied`)
+        } else if (stage == 3) {
+            return res.redirect(`${process.env.NEXT_URL}/advocate/dashboard`)
+        }
+        // return res.send({ 'msg': 'signin sucessfull', token, refresh_token })
     });
 })
 
