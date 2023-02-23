@@ -23,7 +23,7 @@ const port = 3200
 // }))
 // app.use(cors())
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.NEXT_URL,
     credentials: true
 }));
 // httpserver.use(cors)

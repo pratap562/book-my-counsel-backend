@@ -86,13 +86,20 @@ user.post('/login', async (req, res) => {
         res.cookie('token', token, { httpOnly: true })
         res.cookie('refresh_token', refresh_token, { httpOnly: true })
 
+
         let stage = userExist[0].stage
         if (stage == 1) {
-            return res.redirect(`${process.env.NEXT_URL}/signinsignup/role`)
+            console.log(1)
+            return res.send({ redirect_uri: `${process.env.NEXT_URL}/signinsignup/role` })
+            // res.redirect(`${process.env.NEXT_URL}/signinsignup/role`)
         } else if (stage == 2) {
-            return res.redirect(`${process.env.NEXT_URL}/notveryfied/notveryfied`)
+            console.log(2)
+            return res.send({ redirect_uri: `${process.env.NEXT_URL}/notveryfied/notveryfied` })
+            // res.redirect(`${process.env.NEXT_URL}/notveryfied/notveryfied`)
         } else if (stage == 3) {
-            return res.redirect(`${process.env.NEXT_URL}/advocate/dashboard`)
+            console.log(3)
+            return res.send({ redirect_uri: `${process.env.NEXT_URL}/advocate/dashboard` })
+            // res.redirect(`${process.env.NEXT_URL}/advocate/dashboard`)
         }
         // return res.send({ 'msg': 'signin sucessfull', token, refresh_token })
     });
