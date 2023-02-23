@@ -9,6 +9,7 @@ const authenticate = require('./middleware/Authentication/auth')
 const autharize = require('./middleware/Authorization/autharize')
 const oauthForSignup = require('./routes/Oauth/oauth.signup.route')
 const oauthForLogin = require('./routes/Oauth/oauth.login.route')
+const passwordforgot = require('./routes/passwordforgot.route')
 require('dotenv').config()
 const port = 3200
 
@@ -29,6 +30,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use('/auth/google/login', oauthForLogin)
 app.use('/auth/google/signup', oauthForSignup)
+app.use('/passwordforgot', passwordforgot)
 
 app.get('/', (req, res) => {
     res.send({ 'msg': 'welocme' })

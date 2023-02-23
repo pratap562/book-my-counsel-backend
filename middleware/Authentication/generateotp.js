@@ -1,4 +1,6 @@
+
 const generateotp = async (email, hash, name) => {
+  require('dotenv').config()
   const nodemailer = require('nodemailer');
   const jwt = require('jsonwebtoken')
   let smtpTransport = require('nodemailer-smtp-transport');
@@ -11,7 +13,7 @@ const generateotp = async (email, hash, name) => {
   let htmll = `<!DOCTYPE html>
     <html>
       <head>
-        <title>Email Verification for SchedulMeet</title>
+        <title>Email Verification for BookMyCounsel</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
@@ -70,7 +72,7 @@ const generateotp = async (email, hash, name) => {
             <img src="cid:unique@kreata.ee" alt="SchedulMeet Logo" />
           </div>
           <div class="content">
-            <h1>Welcome ${name} to SchedulMeet!</h1>
+            <h1>Welcome ${name} to BookMyCounsel!</h1>
             <p>
               Thank you for signing up. To complete your registration, please click
               on the button below to verify your email address.
@@ -81,8 +83,8 @@ const generateotp = async (email, hash, name) => {
           </div>
           <div class="footer">
             <p>
-              If you did not sign up for SchedulMeet or have any other concerns,
-              please contact us at support@schedulmeet.com
+              If you did not sign up for BookMyCounsel or have any other concerns,
+              please contact us at support@bookmycounsel.com
             </p>
           </div>
         </div>
@@ -96,15 +98,15 @@ const generateotp = async (email, hash, name) => {
     smtpTransport = nodemailer.createTransport(smtpTransport({
       service: 'gmail',
       auth: {
-        user: 'adrianlamo001.eluminati.co@gmail.com',
-        pass: 'rqonssndnnmnjkjc'
+        user: 'bookmycounsel247@gmail.com',
+        pass: process.env.GOOGLE_APP_PASSWORD_MAIL
       }
     }));
     console.log('fine in 48')
     const mailOptions = {
-      from: 'adrianlamo001.eluminati.co@gmail.com',
+      from: 'bookmycounsel247@gmail.com',
       to: email,
-      subject: 'test subject',
+      subject: 'Email Varification',
       text: 'https://google.com ',
       html: htmll,
       attachments: [{
