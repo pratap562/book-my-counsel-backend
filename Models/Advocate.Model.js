@@ -12,8 +12,8 @@ const AdvocateModel = mongoose.model('advocate', mongoose.Schema({
     short_description: { type: String, required: true },
     long_description: { type: String, required: true },
     total_jobs: { type: Number, default:10},
-    fluent_languate: { type: Array, required: true },
-    conversational_languate: { type: Array, required: true },
+    fluent_language: { type: Array, required: true },
+    conversational_language: { type: Array, required: true },
     skills:{type:Array,required:true},
     Education:{type:Array,required:true}
 }))

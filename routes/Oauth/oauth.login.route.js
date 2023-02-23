@@ -24,6 +24,7 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
         let userExist = await UserModel.find({ email })
         console.log(userExist);
         if (userExist.length >= 1) {
+            let stage = userExist[0].stage
             // res.cookie('isSignup', 1, { maxAge: 20000, httpOnly: true, secure: true });
 
             let token = jwt.sign({ email: userExist[0].email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 })
@@ -32,7 +33,18 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
             res.cookie('justLogdin', true, { maxAge: 1000 * 60 * 60 });
             res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, secure: true });
             res.cookie('refresh_token', refresh_token, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true, secure: true });
-            return res.redirect(`${process.env.NEXT_URL}`)
+
+            // send them to choose role page
+            if (stage == 1) {
+                return res.redirect(`${process.env.NEXT_URL}/signinsignup/role`)
+            } else if (stage == 2) {
+                return res.redirect(`${process.env.NEXT_URL}/notveryfied/notveryfied`)
+            } else if (stage == 3) {
+                return res.redirect(`${process.env.NEXT_URL}/advocate/dashboard`)
+            }
+
+            // return res.redirect(`${process.env.NEXT_URL}signinsignup/role`))
+
 
         } else {
             console.log('oyeee');
