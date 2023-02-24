@@ -80,8 +80,8 @@ user.post('/login', async (req, res) => {
         // result == true
         console.log(userExist[0]._id, 'iiiii');
         console.log(userExist[0]._id.toString(), 'iiiii');
-        let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: 'user' }, process.env.SECRETKEY, { expiresIn: 60 * 60 })
-        let refresh_token = jwt.sign({ email, username: userExist.username }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
+        let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 * 60 })
+        let refresh_token = jwt.sign({ email, role: userExist[0].role }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
         // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.cookie('token', token, { httpOnly: true })
         res.cookie('refresh_token', refresh_token, { httpOnly: true })
