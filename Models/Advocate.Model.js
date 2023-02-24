@@ -8,7 +8,7 @@ const AdvocateModel = mongoose.model('advocate', mongoose.Schema({
     role_title: { type: String, required: true },
     location: { type: String, required: true },
     pricing: { type: Number, required: true },
-    total_worked_hour: { type: Number, required: true },
+    total_worked_hour: { type: Number, default:10 },
     short_description: { type: String, required: true },
     long_description: { type: String, required: true },
     total_jobs: { type: Number, default:10},

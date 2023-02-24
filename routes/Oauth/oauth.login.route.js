@@ -27,7 +27,7 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
             let stage = userExist[0].stage
             // res.cookie('isSignup', 1, { maxAge: 20000, httpOnly: true, secure: true });
 
-            let token = jwt.sign({ email: userExist[0].email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 })
+            let token = jwt.sign({ email: userExist[0].email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 * 60 })
             let refresh_token = jwt.sign({ email: userExist[0].email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
 
             // res.cookie('justLogdin', true, { maxAge: 1000 * 60 * 60 });
@@ -38,7 +38,7 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
             if (stage == 1) {
                 return res.redirect(`${process.env.NEXT_URL}/signinsignup/role`)
             } else if (stage == 2) {
-                return res.redirect(`${process.env.NEXT_URL}/notveryfied/notveryfied`)
+                return res.redirect(`${process.env.NEXT_URL}/advocate/notveryfied`)
             } else if (stage == 3) {
                 return res.redirect(`${process.env.NEXT_URL}/advocate/dashboard`)
             }

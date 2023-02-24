@@ -80,7 +80,7 @@ user.post('/login', async (req, res) => {
         // result == true
         console.log(userExist[0]._id, 'iiiii');
         console.log(userExist[0]._id.toString(), 'iiiii');
-        let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: 'user' }, process.env.SECRETKEY, { expiresIn: 60 })
+        let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: 'user' }, process.env.SECRETKEY, { expiresIn: 60 * 60 })
         let refresh_token = jwt.sign({ email, username: userExist.username }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
         // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.cookie('token', token, { httpOnly: true })
@@ -94,7 +94,7 @@ user.post('/login', async (req, res) => {
             // res.redirect(`${process.env.NEXT_URL}/signinsignup/role`)
         } else if (stage == 2) {
             console.log(2)
-            return res.send({ redirect_uri: `${process.env.NEXT_URL}/notveryfied/notveryfied` })
+            return res.send({ redirect_uri: `${process.env.NEXT_URL}/advocate/notveryfied` })
             // res.redirect(`${process.env.NEXT_URL}/notveryfied/notveryfied`)
         } else if (stage == 3) {
             console.log(3)

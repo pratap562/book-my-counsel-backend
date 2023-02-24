@@ -1,10 +1,10 @@
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const express = require('express')
-
-const { httpserver, app } = require('./config/httpConnection')
+app = express()
+// const { httpserver, app } = require('./config/httpConnection')
 const user = require('./routes/user.route')
-const advrouter= require('./routes/advocate.route')
+const advrouter = require('./routes/advocate.route')
 const connection = require('./config/db')
 const authenticate = require('./middleware/Authentication/auth')
 const autharize = require('./middleware/Authorization/autharize')
@@ -54,7 +54,7 @@ app.get('/alldata', authenticate, autharize(['admin']), (req, res) => {
 })
 
 
-httpserver.listen(port, async () => {
+app.listen(port, async () => {
     try {
         await connection
         console.log(`your db is connected to port ${port}`);

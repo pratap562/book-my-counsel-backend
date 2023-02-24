@@ -1,16 +1,38 @@
 const express = require('express');
 const advrouter = express.Router();
 const AdvocateModel = require('../Models/Advocate.Model');
+const authenticate = require('../middleware/Authentication/auth')
+const UserModel = require('../Models/User.Model')
 
 // CREATE
-advrouter.post('/post', (req, res) => {
-  const advocate = new AdvocateModel(req.body);
+
+// fluent_language: { type: Array, required: true },
+// conversational_language: { type: Array, required: true },
+// skills: { type: Array, required: true },
+
+advrouter.post('/post', authenticate, (req, res) => {
+  let data = req.body
+  let body = { ...data, fluent_language: data.fluent_language.split(' '), conversational_language: data.conversational_language.split(' '), skills: data.skills.split(" ") }
+  const token = req.cookies?.token
+  console.log(body)
+  const advocate = new AdvocateModel(body);
   advocate.save((err, doc) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error saving advocate');
+      res.status(500).status(500).send({ err: 'Error saving advocate' });
     } else {
-      res.status(201).json(doc);
+      res.status(201).send({ "msg": "sucessfull saved your detail" });
+
+      async function updateDocument() {
+        try {
+          const result = await UserModel.updateOne({ _id: body.user_id }, { stage: 2 });
+          console.log(`Updated ${result.nModified} document(s)`);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      updateDocument();
     }
   });
 });

@@ -4,7 +4,9 @@ require('dotenv').config()
 const authenticate = (req, res, next) => {
     console.log('authentication');
     console.log(req.headers, 'lkj');
-    const token = req.cookies?.token || req.headers.authorization.split(' ')[1]
+
+    const token = req.cookies?.token
+    console.log(req.cookies, 'll')
     console.log(token, token);
     if (token) {
         jwt.verify(token, process.env.SECRETKEY, function (err, decoded) {
@@ -14,8 +16,9 @@ const authenticate = (req, res, next) => {
                 return res.status(401).json({ 'msg': 'plg login' })
             }
             // decoded
-            req.role = decoded.role
-            req.username = decoded.username
+            // req.role = decoded.role
+            console.log(decoded, 'decoded');
+            req.body.user_id = decoded.id
             next()
         })
     } else {
