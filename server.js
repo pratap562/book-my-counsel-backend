@@ -4,6 +4,8 @@ const express = require('express')
 
 const { httpserver, app } = require('./config/httpConnection')
 const user = require('./routes/user.route')
+const router = require('./routes/Advocates/advocate.route')
+
 const connection = require('./config/db')
 const authenticate = require('./middleware/Authentication/auth')
 const autharize = require('./middleware/Authorization/autharize')
@@ -34,7 +36,7 @@ app.get('/', (req, res) => {
     res.send({ 'msg': 'welocme' })
 })
 app.use('/user', user)
-// app.use('/chat',)
+app.use('/lawyer',router)
 
 app.get('/islogdin', authenticate, (req, res) => {
     res.send({ 'msg': 'logdin' })

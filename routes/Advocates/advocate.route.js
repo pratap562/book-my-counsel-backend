@@ -1,14 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const AdvocateModel = require('../models/advocate');
+const AdvocateModel = require("../../Models/Advocate.Model");
 
 // CREATE
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
   const advocate = new AdvocateModel(req.body);
   advocate.save((err, doc) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error saving advocate');
+      res.status(500).send("Error saving advocate");
     } else {
       res.status(201).json(doc);
     }
@@ -16,25 +16,55 @@ router.post('/', (req, res) => {
 });
 
 // READ (ALL)
-router.get('/', (req, res) => {
-  AdvocateModel.find({}, (err, docs) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error retrieving advocates');
-    } else {
-      res.json(docs);
-    }
-  });
-});
+// router.get('/', (req, res) => {
+//   AdvocateModel.find({}, (err, docs) => {
+//     if (err) {
+//       console.error(err);
+//       res.status(500).send('Error retrieving advocates');
+//     } else {
+//       res.json(docs);
+//     }
+//   });
+// });
+router.get("/", (req, res) => {
+  const { role_title, location, sort } = req.query;
+  let sortObj = {};
 
+  if (sort === "asc") {
+    sortObj = { pricing: 1 };
+  } else if (sort === "desc") {
+    sortObj = { pricing: -1 };
+  }
+
+  let filterObj = {};
+
+  if (role_title) {
+    filterObj.role_title = role_title;
+  }
+
+  if (location) {
+    filterObj.location = location;
+  }
+
+  AdvocateModel.find(filterObj)
+    .sort(sortObj)
+    .then((docs) => {
+ 
+      res.json(docs);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving advocates");
+    });
+});
 // READ (ONE)
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   AdvocateModel.findById(req.params.id, (err, doc) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error retrieving advocate');
+      res.status(500).send("Error retrieving advocate");
     } else if (!doc) {
-      res.status(404).send('Advocate not found');
+      res.status(404).send("Advocate not found");
     } else {
       res.json(doc);
     }
@@ -42,27 +72,32 @@ router.get('/:id', (req, res) => {
 });
 
 // UPDATE
-router.put('/:id', (req, res) => {
-  AdvocateModel.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, doc) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error updating advocate');
-    } else if (!doc) {
-      res.status(404).send('Advocate not found');
-    } else {
-      res.json(doc);
+router.put("/:id", (req, res) => {
+  AdvocateModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error updating advocate");
+      } else if (!doc) {
+        res.status(404).send("Advocate not found");
+      } else {
+        res.json(doc);
+      }
     }
-  });
+  );
 });
 
 // DELETE
-router.delete('/:id', (req, res) => {
+router.delete("/:id", (req, res) => {
   AdvocateModel.findByIdAndDelete(req.params.id, (err, doc) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error deleting advocate');
+      res.status(500).send("Error deleting advocate");
     } else if (!doc) {
-      res.status(404).send('Advocate not found');
+      res.status(404).send("Advocate not found");
     } else {
       res.json(doc);
     }
