@@ -46,7 +46,7 @@ oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('googl
             res.cookie('userExist', true, { maxAge: 20000 });
             return res.redirect(`${process.env.NEXT_URL}/signinsignup`)
         } else {
-            let newUser = new UserModel({ name, email, password })
+            let newUser = new UserModel({ name, email, password, role: 'user', stage: 1 })
             try {
                 console.log(newUser, 'newuser')
                 await newUser.save()
@@ -57,11 +57,6 @@ oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('googl
                 console.log('err: ', err);
             }
         }
-
-
-
-
-
         // res.cookie('isSignup', 1, { maxAge: 20000, httpOnly: true, secure: true });
         // res.redirect(`${process.env.NEXT_URL}/signinsignup`)
         // // res.send({ "msg": "hello" })

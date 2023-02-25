@@ -6,7 +6,7 @@ const autharize = (permietedRole) => {
         if (permietedRole.includes(role)) {
             next()
         } else {
-            res.send({ 'err': 'not autharize' })
+            res.status(401).send({ 'err': 'not autharize' })
         }
     }
 }

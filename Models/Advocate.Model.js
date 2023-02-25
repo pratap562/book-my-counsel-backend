@@ -5,6 +5,7 @@ const AdvocateModel = mongoose.model('advocate', mongoose.Schema({
     zoom_id: String,
     name: { type: String, required: true },
     picture: { type: String, required: true },
+    document: { type: String, required: true },
     role_title: { type: String, required: true },
     location: { type: String, required: true },
     pricing: { type: Number, required: true },
@@ -15,7 +16,8 @@ const AdvocateModel = mongoose.model('advocate', mongoose.Schema({
     fluent_language: { type: Array, required: true },
     conversational_language: { type: Array, required: true },
     skills:{type:Array,required:true},
-    Education:{type:Array,required:true}
+    Education:{type:Array,required:true},
+    stage:{type:Number,default:2}
 }))
 
 module.exports = AdvocateModel

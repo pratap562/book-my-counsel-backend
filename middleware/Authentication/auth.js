@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const AdvocateModel = require('../../Models/Advocate.Model')
 require('dotenv').config()
 
 const authenticate = (req, res, next) => {
@@ -16,10 +17,23 @@ const authenticate = (req, res, next) => {
                 return res.status(401).json({ 'msg': 'plg login' })
             }
             // decoded
-            // req.role = decoded.role
-            console.log(decoded, 'decoded');
+            req.role = decoded.role
             req.body.user_id = decoded.id
-            next()
+            console.log(req.role, 'roll')
+            console.log(decoded, 'decoded');
+            if (req.role == 'advocate') {
+                console.log('yes')
+                findAdvocateId = async () => {
+                    let res = await AdvocateModel.findOne({ user_id: decoded.id })
+                    console.log(res)
+                    req.body.advocateId = res._id.toString()
+                    next()
+                }
+                findAdvocateId()
+            } else {
+                console.log('no');
+                next()
+            }
         })
     } else {
         res.status(401).json({ 'msg': 'plg login again' })
