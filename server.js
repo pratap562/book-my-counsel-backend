@@ -11,7 +11,9 @@ const autharize = require('./middleware/Authorization/autharize')
 const oauthForSignup = require('./routes/Oauth/oauth.signup.route')
 const oauthForLogin = require('./routes/Oauth/oauth.login.route')
 const passwordforgot = require('./routes/passwordforgot.route')
+const verify = require('./routes/verify.route')
 const slot = require('./routes/Slotes/slote')
+
 require('dotenv').config()
 const port = 3200
 
@@ -34,6 +36,7 @@ app.use('/auth/google/login', oauthForLogin)
 app.use('/auth/google/signup', oauthForSignup)
 app.use('/passwordforgot', passwordforgot)
 app.use('/slotes', slot)
+app.use('/advocate/verify', verify)
 
 app.get('/', (req, res) => {
     res.send({ 'msg': 'welocme' })

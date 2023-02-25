@@ -12,7 +12,7 @@ const UserModel = require('../Models/User.Model')
 
 advrouter.post('/post', authenticate, (req, res) => {
   let data = req.body
-  let body = { ...data, fluent_language: data.fluent_language.split(' '), conversational_language: data.conversational_language.split(' '), skills: data.skills.split(" ") }
+  let body = { ...data, stage: 2, fluent_language: data.fluent_language.split(' '), conversational_language: data.conversational_language.split(' '), skills: data.skills.split(" ") }
   const token = req.cookies?.token
   console.log(body)
   const advocate = new AdvocateModel(body);
@@ -31,7 +31,6 @@ advrouter.post('/post', authenticate, (req, res) => {
           console.error(error);
         }
       }
-
       updateDocument();
     }
   });
