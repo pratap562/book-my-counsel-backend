@@ -14,6 +14,7 @@ const oauthForLogin = require('./routes/Oauth/oauth.login.route')
 const passwordforgot = require('./routes/passwordforgot.route')
 const verify = require('./routes/verify.route')
 const slot = require('./routes/Slotes/slote')
+const { paymentROuter } = require('./routes/paymentgateway.route')
 
 require('dotenv').config()
 const port = 3200
@@ -44,7 +45,7 @@ app.get('/', (req, res) => {
 })
 app.use('/user', user)
 app.use('/lawyer', router)
-
+app.use("/create-checkout-session", paymentROuter)
 app.get('/islogdin', authenticate, (req, res) => {
     res.send({ 'msg': 'logdin' })
 })
