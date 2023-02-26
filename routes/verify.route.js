@@ -17,6 +17,22 @@ verify.get('/pending', authenticate, autharize(['admin']), async (req, res) => {
     }
 
 })
+
+verify.get('/detail/:advocateId', async (req, res) => {
+    let data
+    const { advocateId } = req.params
+    try {
+        data = await AdvocateModel.find({ _id: advocateId })
+        console.log(data)
+        return res.send({ 'data': data })
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send({ 'data': data })
+    }
+    res.send({ "msg": "hi" })
+})
+
+
 verify.get('/done', authenticate, autharize(['admin']), async (req, res) => {
     // get all the people who are verifyied
     let data

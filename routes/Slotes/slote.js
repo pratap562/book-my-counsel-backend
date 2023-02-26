@@ -127,9 +127,13 @@ slot.get('/:advocateId', async (req, res) => {
             format_date: {
                 $gt: formattedDate
             },
+            advocate_id: advocateId,
             client_id: 'undefined'
         }).sort({ format_date: 1, time: 1 })
         console.log(result, 'rsul')
+        if (result.length == 0) {
+            return res.send({ "data": [] })
+        }
 
         let lastDate = result[0].date || ''
         let weekSlots = []

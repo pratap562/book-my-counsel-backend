@@ -52,9 +52,6 @@ user.post('/signup', async (req, res) => {
         // res.cookie('uniqueId', uniqueId, { maxAge: 599990 * 1000, domain: 'elaborate-tiramisu-ba3b1a.netlify.app', secure: true, sameSite: 'None' })
         // res.cookie('uniqueId', uniqueId, { expire: new Date() + 12000 },)
     });
-
-
-
 })
 
 
@@ -84,10 +81,14 @@ user.post('/login', async (req, res) => {
         console.log(userExist[0]._id.toString(), 'iiiii');
         let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 * 60 })
         let refresh_token = jwt.sign({ email, role: userExist[0].role }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
+        console.log(token)
+        console.log('hell')
+        console.log(refresh_token, 'ref');
         // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.cookie('token', token, { httpOnly: true })
         res.cookie('refresh_token', refresh_token, { httpOnly: true })
-
+        // res.cookie('detail', {role:userExist[0].role,name:userExist[0].name})
+        res.cookie('detail', `${userExist[0].role} ${userExist[0].name}`)
 
         let stage = userExist[0].stage
         if (stage == 1) {
@@ -125,6 +126,7 @@ user.get('/updatejwt', authenticate, async (req, res) => {
     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.cookie('token', token, { httpOnly: true })
     res.cookie('refresh_token', refresh_token, { httpOnly: true })
+    res.cookie('role', userExist[0].role)
 
     console.log(token, 'token')
     res.setHeader
