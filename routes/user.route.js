@@ -9,6 +9,7 @@ const user = express.Router()
 const UserModel = require('../Models/User.Model')
 const redisConnection = require('../config/redis')
 const authenticate = require('../middleware/Authentication/auth')
+const AdvocateModel = require('../Models/Advocate.Model')
 const redis = redisConnection()
 dotevn.config()
 
@@ -107,10 +108,16 @@ user.post('/login', async (req, res) => {
 user.get('/updatejwt', authenticate, async (req, res) => {
     console.log('ooeebb')
     const { email } = req.body
+
     let userExist = await UserModel.find({ email })
-    if (userExist.length == 0) {
-        return res.status(404).json({ 'err': "user don't exist" })
+    let asprAdvocateDetail = await AdvocateModel.find({ user_id: req.body.user_id })
+    console.log(asprAdvocateDetail, 'ii')
+    if (asprAdvocateDetail.length == 0) {
+        return res.status(422).json({ "msg": "varification fail" })
     }
+    // if (userExist.length == 0) {
+    //     return res.status(404).json({ 'err': "user don't exist" })
+    // }
     console.log(req.cookies);
     console.log(req.cookies.issignup)
     let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 * 60 })
@@ -119,17 +126,18 @@ user.get('/updatejwt', authenticate, async (req, res) => {
     res.cookie('token', token, { httpOnly: true })
     res.cookie('refresh_token', refresh_token, { httpOnly: true })
 
-
+    console.log(token, 'token')
+    res.setHeader
     let stage = userExist[0].stage
     if (stage == 1) {
         console.log(1)
-        return res.send({ redirect_uri: `/signinsignup/role` })
+        return res.send({ token, refresh_token, redirect_uri: `/signinsignup/role` })
     } else if (stage == 2) {
         console.log(2)
-        return res.send({ redirect_uri: `/advocate/notveryfied` })
+        return res.send({ token, refresh_token, redirect_uri: `/advocate/notveryfied` })
     } else if (stage == 3) {
         console.log(3)
-        return res.send({ redirect_uri: `/advocate/dashboard` })
+        return res.send({ token, refresh_token, "msg": "verifyed sucessfully" })
     }
 })
 

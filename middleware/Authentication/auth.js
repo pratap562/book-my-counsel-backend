@@ -19,10 +19,11 @@ const parseCookie = (req) => {
 const authenticate = (req, res, next) => {
     console.log('authentication');
     console.log(req.headers, 'lkj');
-    console.log(req.headers.cookie, 'header token')
-    let cookiMap = parseCookie(req)
+    console.log(req.headers.token, 'header token')
+    // let cookiMap = parseCookie(req)
 
-    const token = req.cookies?.token || cookieMap.cookies.token || ''
+    // const token = req.cookies?.token || req.headers.cookies.token || cookieMap.cookies.token || ''
+    const token = req.cookies?.token || req.headers.token
     console.log(req.cookies, 'll')
     console.log(token, token);
     if (token) {
@@ -41,10 +42,14 @@ const authenticate = (req, res, next) => {
             if (req.role == 'advocate') {
                 console.log('yes')
                 findAdvocateId = async () => {
-                    let res = await AdvocateModel.findOne({ user_id: decoded.id })
-                    console.log(res)
-                    req.body.advocateId = res._id.toString()
-                    next()
+                    try {
+                        let res = await AdvocateModel.findOne({ user_id: decoded.id })
+                        console.log(res)
+                        req.body.advocateId = res._id.toString()
+                        next()
+                    } catch (err) {
+                        return res.status(500).send({ "msg": "try after some time" })
+                    }
                 }
                 findAdvocateId()
             } else {
