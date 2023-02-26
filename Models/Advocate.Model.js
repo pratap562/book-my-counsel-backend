@@ -1,5 +1,20 @@
 const mongoose = require('mongoose')
 
+const educationSchema = new mongoose.Schema({
+    university: {
+      type: String,
+      required: true
+    },
+    course: {
+      type: String,
+      required: true
+    },
+    duration: {
+      type: String,
+      required: true
+    }
+  });
+  
 const AdvocateModel = mongoose.model('advocate', mongoose.Schema({
     user_id: { type: String, required: true },
     zoom_id: String,
@@ -16,7 +31,7 @@ const AdvocateModel = mongoose.model('advocate', mongoose.Schema({
     fluent_language: { type: Array, required: true },
     conversational_language: { type: Array, required: true },
     skills:{type:Array,required:true},
-    Education:{type:Array,required:true},
+    education:{type:[educationSchema],required:true},
     stage:{type:Number,default:2}
 }))
 

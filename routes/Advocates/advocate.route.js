@@ -1,6 +1,38 @@
 const express = require("express");
 const router = express.Router();
 const AdvocateModel = require("../../Models/Advocate.Model");
+const authenticate = require("../../middleware/Authentication/auth")
+const UserModel = require('../../Models/User.Model')
+// const UserModel = require("../../models/User.Model")
+
+router.post('/post', authenticate, (req, res) => {
+  let data = req.body
+  console.log(data, 'dataaaaa')
+  let body = { ...data, stage: 2, fluent_language: data.fluent_language.split(' '), conversational_language: data.conversational_language.split(' '), skills: data.skills.split(" ") }
+  const token = req.cookies?.token
+  console.log(body)
+  const advocate = new AdvocateModel(body);
+  advocate.save((err, doc) => {
+    if (err) {
+      console.error(err);
+      res.status(500).status(500).send({ err: 'Error saving advocate' });
+    } else {
+      res.status(201).send({ "msg": "sucessfull saved your detail" });
+      console.log(doc, 'doc')
+
+      async function updateDocument() {
+        console.log('ys')
+        try {
+          const result = await UserModel.updateOne({ _id: body.user_id }, { stage: 2 });
+          console.log(`Updated ${result.nModified} document(s)`);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      updateDocument();
+    }
+  });
+});
 
 // CREATE
 router.post("/", (req, res) => {
@@ -49,7 +81,7 @@ router.get("/", (req, res) => {
   AdvocateModel.find(filterObj)
     .sort(sortObj)
     .then((docs) => {
- 
+
       res.json(docs);
     })
     .catch((err) => {

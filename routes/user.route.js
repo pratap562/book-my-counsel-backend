@@ -8,6 +8,7 @@ const generateotp = require('../middleware/Authentication/generateotp')
 const user = express.Router()
 const UserModel = require('../Models/User.Model')
 const redisConnection = require('../config/redis')
+const authenticate = require('../middleware/Authentication/auth')
 const redis = redisConnection()
 dotevn.config()
 
@@ -90,25 +91,46 @@ user.post('/login', async (req, res) => {
         let stage = userExist[0].stage
         if (stage == 1) {
             console.log(1)
-            return res.send({ redirect_uri: `${process.env.NEXT_URL}/signinsignup/role` })
-            // res.redirect(`${process.env.NEXT_URL}/signinsignup/role`)
+            return res.send({ redirect_uri: `/signinsignup/role` })
         } else if (stage == 2) {
             console.log(2)
-            return res.send({ redirect_uri: `${process.env.NEXT_URL}/advocate/notveryfied` })
-            // res.redirect(`${process.env.NEXT_URL}/notveryfied/notveryfied`)
+            return res.send({ redirect_uri: `/advocate/notveryfied` })
         } else if (stage == 3) {
             console.log(3)
-            return res.send({ redirect_uri: `${process.env.NEXT_URL}/advocate/dashboard` })
-            // res.redirect(`${process.env.NEXT_URL}/advocate/dashboard`)
+            return res.send({ redirect_uri: `/advocate/dashboard` })
         }
         // return res.send({ 'msg': 'signin sucessfull', token, refresh_token })
     });
 })
 
 
-user.get('/issignup', async (req, res) => {
+user.get('/updatejwt', authenticate, async (req, res) => {
+    console.log('ooeebb')
+    const { email } = req.body
+    let userExist = await UserModel.find({ email })
+    if (userExist.length == 0) {
+        return res.status(404).json({ 'err': "user don't exist" })
+    }
     console.log(req.cookies);
     console.log(req.cookies.issignup)
+    let token = jwt.sign({ email, id: userExist[0]._id.toString(), role: userExist[0].role }, process.env.SECRETKEY, { expiresIn: 60 * 60 })
+    let refresh_token = jwt.sign({ email, role: userExist[0].role }, process.env.REFRESHKEY, { expiresIn: 180 * 180 })
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.cookie('token', token, { httpOnly: true })
+    res.cookie('refresh_token', refresh_token, { httpOnly: true })
+
+
+    let stage = userExist[0].stage
+    if (stage == 1) {
+        console.log(1)
+        return res.send({ redirect_uri: `/signinsignup/role` })
+    } else if (stage == 2) {
+        console.log(2)
+        return res.send({ redirect_uri: `/advocate/notveryfied` })
+    } else if (stage == 3) {
+        console.log(3)
+        return res.send({ redirect_uri: `/advocate/dashboard` })
+    }
 })
 
 module.exports = user
