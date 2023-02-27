@@ -20,9 +20,6 @@
     "stripe": "^11.12.0",
     "uuid": "^9.0.0"
   },
-  "scripts": {
-    "start": "node server.js"
-  },
   "name": "book-my-counsel",
   "version": "1.0.0",
   "main": "server.js",
