@@ -2,7 +2,9 @@ const express = require('express');
 const slot = express.Router();
 const autharize = require('../../middleware/Authorization/autharize')
 const authenticate = require('../../middleware/Authentication/auth')
-const slotModel = require('../../models/Slot.Model')
+const slotModel = require('../../models/Slot.Model');
+const UserModel = require('../../Models/User.Model');
+const sendEmail = require('../Email/emailTemplate')
 
 const getTimeAndDate = () => {
     const currentDate = new Date();
@@ -216,10 +218,34 @@ slot.patch('/book/:slotId', authenticate, async (req, res) => {
     let { slotId } = req.params
     try {
         let data = await slotModel.updateOne({ _id: slotId }, { $set: { client_id: user_id } })
-        return res.status(201).send({ "msg": "slot booked sucessfull" })
+        res.status(201).send({ "msg": "slot booked sucessfull" })
     } catch (err) {
-        return res.status(500).send({ "err": "try after some time" })
+        res.status(500).send({ "err": "try after some time" })
     }
+    // { heading, paragraph, link, subject, linkTag, email }
+    try {
+        let data = await slotModel.findOne({ _id: slotId })
+        console.log(data, 'data')
+        let advocate_id = data.advocate_id
+        let client_id = data.client_id
+
+        let clientData = await UserModel.findOne({ _id: client_id })
+        console.log(clientData)
+
+        let heading = 'Slot Booked Sucessfully'
+        let paragraph = `hey ${clientData.name} booked a slot with our advocates `
+        let linkTag = 'Live Map'
+        let link = 'https://googlemap.com'
+        let email = clientData.email
+        console.log(email, 'em')
+        await sendEmail({ heading, paragraph, linkTag, link, email })
+
+
+
+    } catch (err) {
+        console.log(err, 'err')
+    }
+
 })
 
 module.exports = slot

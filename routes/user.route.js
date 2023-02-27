@@ -88,7 +88,7 @@ user.post('/login', async (req, res) => {
         res.cookie('token', token, { httpOnly: true })
         res.cookie('refresh_token', refresh_token, { httpOnly: true })
         // res.cookie('detail', {role:userExist[0].role,name:userExist[0].name})
-        res.cookie('detail', `${userExist[0].role} ${userExist[0].name}`)
+        res.cookie('detail', `${userExist[0].role}-${userExist[0].name}`)
 
         let stage = userExist[0].stage
         if (stage == 1) {
@@ -141,6 +141,14 @@ user.get('/updatejwt', authenticate, async (req, res) => {
         console.log(3)
         return res.send({ token, refresh_token, "msg": "verifyed sucessfully" })
     }
+})
+
+user.get('/logout', (req, res) => {
+    res.cookie('token', '', { httpOnly: true, maxAge: -1 })
+    res.cookie('refresh_token', '', { httpOnly: true, maxAge: -1 })
+    res.cookie('role', '', { maxAge: -1 })
+    res.cookie('detail', '', { maxAge: -1 })
+    res.send({ 'msg': "done" })
 })
 
 module.exports = user
