@@ -20,6 +20,13 @@
     "stripe": "^11.12.0",
     "uuid": "^9.0.0"
   },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
   "name": "book-my-counsel",
   "version": "1.0.0",
   "main": "server.js",
@@ -35,3 +42,4 @@
   "homepage": "https://github.com/pratap562/book-my-counsel#readme",
   "description": ""
 }
+
