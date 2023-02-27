@@ -239,9 +239,6 @@ slot.patch('/book/:slotId', authenticate, async (req, res) => {
         let email = clientData.email
         console.log(email, 'em')
         await sendEmail({ heading, paragraph, linkTag, link, email })
-
-
-
     } catch (err) {
         console.log(err, 'err')
     }

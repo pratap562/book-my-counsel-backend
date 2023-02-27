@@ -14,7 +14,7 @@ const oauthForLogin = require('./routes/Oauth/oauth.login.route')
 const passwordforgot = require('./routes/passwordforgot.route')
 const verify = require('./routes/verify.route')
 const slot = require('./routes/Slotes/slote')
-// const { paymentROuter } = require('./routes/paymentgateway.route')
+const paymentROuter = require('./routes/paymentgateway.route')
 require('dotenv').config()
 const port = 3200
 
@@ -27,7 +27,7 @@ const port = 3200
 // }))
 // app.use(cors())
 app.use(cors({
-    origin: process.env.NEXT_URL,
+    origin: [process.env.NEXT_URL, 'https://checkout.stripe.com'],
     credentials: true
 }));
 // httpserver.use(cors)
@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 })
 app.use('/user', user)
 app.use('/lawyer', router)
-// app.use("/create-checkout-session", paymentROuter)
+app.use(`/create-checkout-session`, paymentROuter)
 app.get('/islogdin', authenticate, (req, res) => {
     res.send({ 'msg': 'logdin' })
 })

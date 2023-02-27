@@ -21,7 +21,7 @@
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "name": "book-my-counsel",
   "version": "1.0.0",
