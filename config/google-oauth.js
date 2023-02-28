@@ -19,7 +19,7 @@ passportForSignup.use(mid)
 passportForSignup.use(new GoogleStrategy({
     clientID: process.env.clientID,
     clientSecret: process.env.clientSecret,
-    callbackURL: 'http://localhost:3200/auth/google/signup/callback',
+    callbackURL: `${process.env.OWN_URL}/auth/google/signup/callback`,
     // passReqToCallback: true
 },
     async function (req, accessToken, refreshToken, profile, cb) {

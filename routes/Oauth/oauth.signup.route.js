@@ -19,9 +19,9 @@ const setIntent = (req, res, next) => {
 }
 
 
-oauthForSignup.get('/', mid, setIntent, passportForSignup.authenticate('google', { scope: ['profile', 'email'], callbackURL: 'http://localhost:3200/auth/google/signup/callback' }))
+oauthForSignup.get('/', mid, setIntent, passportForSignup.authenticate('google', { scope: ['profile', 'email'], callbackURL: `${process.env.OWN_URL}/auth/google/signup/callback` }))
 
-oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('google', { failureRedirect: '/signup', session: false, callbackURL: 'http://localhost:3200/auth/google/signup/callback' }),
+oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('google', { failureRedirect: '/signup', session: false, callbackURL: `${process.env.OWN_URL}/auth/google/signup/callback` }),
     async function (req, res) {
         //sucessfull authentication, redirect home.
         // let newuser = new UserModel(req.user)
