@@ -2,7 +2,7 @@ const express = require('express');
 const slot = express.Router();
 const autharize = require('../../middleware/Authorization/autharize')
 const authenticate = require('../../middleware/Authentication/auth')
-const slotModel = require('../../models/Slot.Model');
+const slotModel = require('../../Models/Slot.Model');
 const UserModel = require('../../Models/User.Model');
 const sendEmail = require('../Email/emailTemplate')
 
