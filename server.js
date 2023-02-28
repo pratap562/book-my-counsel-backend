@@ -26,10 +26,7 @@ const port = 3200
 //     credentials: true
 // }))
 // app.use(cors())
-app.use(cors({
-    origin: [process.env.NEXT_URL, 'https://checkout.stripe.com'],
-    credentials: true
-}));
+app.use(cors());
 // httpserver.use(cors)
 app.use(express.json())
 app.use(cookieParser())
