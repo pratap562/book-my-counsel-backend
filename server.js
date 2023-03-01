@@ -26,7 +26,13 @@ const port = 3200
 //     credentials: true
 // }))
 // app.use(cors())
-app.use(cors());
+app.use(cors({
+    origin: (origin, callback) => {
+        callback(null, origin); // Allow any origin to access the API
+    },
+    credentials: true // Allow credentials (cookies, HTTP authentication) to be sent with requests
+}));
+
 // httpserver.use(cors)
 app.use(express.json())
 app.use(cookieParser())
