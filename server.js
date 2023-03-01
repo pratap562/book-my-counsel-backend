@@ -27,12 +27,9 @@ const port = 3200
 // }))
 // app.use(cors())
 app.use(cors({
-    origin: (origin, callback) => {
-        callback(null, origin); // Allow any origin to access the API
-    },
-    credentials: true // Allow credentials (cookies, HTTP authentication) to be sent with requests
+    origin: 'https://book-my-counsel-frontend-hdsr.vercel.app',
+    credentials: true
 }));
-
 // httpserver.use(cors)
 app.use(express.json())
 app.use(cookieParser())
