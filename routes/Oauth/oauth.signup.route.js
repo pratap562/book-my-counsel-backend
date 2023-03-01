@@ -43,14 +43,14 @@ oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('googl
         let userExist = await UserModel.find({ email })
         if (userExist.length >= 1) {
             console.log('user exist dont need signup');
-            res.cookie('userExist', true, { maxAge: 20000 });
+            res.cookie('userExist', true, { maxAge: 20000, sameSite: 'none', secure: true });
             return res.redirect(`${process.env.NEXT_URL}/signinsignup`)
         } else {
             let newUser = new UserModel({ name, email, password, role: 'user', stage: 1 })
             try {
                 console.log(newUser, 'newuser')
                 await newUser.save()
-                res.cookie('isSignup', 1, { maxAge: 20000 });
+                res.cookie('isSignup', 1, { maxAge: 20000, sameSite: 'none', secure: true });
                 console.log('work done')
                 return res.redirect(`${process.env.NEXT_URL}/signinsignup`)
             } catch (err) {
