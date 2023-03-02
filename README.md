@@ -23,7 +23,7 @@ nodemon server.js
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-Backend will run on [http://localhost:3200] 
+Backend will run on (http://localhost:3200)
 
 there is one env.text file which contain all environment variables
 
