@@ -4,6 +4,8 @@
 
 First, run the Next js development server:
 
+Frontend Next Js repo  [https://github.com/pratap562/book-my-counsel-frontend]
+
 ```bash
 npm run dev
 # or
@@ -11,9 +13,8 @@ yarn dev
 # or
 pnpm dev
 ```
-And then run the Node Backend server.
+And then run the Node Backend server this repo.
 
-backend repo [https://github.com/pratap562/book-my-counsel-backend]
 
 ```bash
 node server.js
