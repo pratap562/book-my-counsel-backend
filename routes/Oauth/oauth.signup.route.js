@@ -19,9 +19,9 @@ const setIntent = (req, res, next) => {
 }
 
 
-oauthForSignup.get('/', mid, setIntent, passportForSignup.authenticate('google', { scope: ['profile', 'email'], callbackURL: `${process.env.OWN_URL}/auth/google/signup/callback` }))
+oauthForSignup.get('/', mid, setIntent, passportForSignup.authenticate('google', { scope: ['profile', 'email'], callbackURL: `${process.env.NEXT_URL}/api/auth/google/signup/callback` }))
 
-oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('google', { failureRedirect: '/signup', session: false, callbackURL: `${process.env.OWN_URL}/auth/google/signup/callback` }),
+oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('google', { failureRedirect: '/signup', session: false, callbackURL: `${process.env.NEXT_URL}/api/auth/google/signup/callback` }),
     async function (req, res) {
         //sucessfull authentication, redirect home.
         // let newuser = new UserModel(req.user)
@@ -44,6 +44,9 @@ oauthForSignup.get('/callback', setIntent, passportForSignup.authenticate('googl
         if (userExist.length >= 1) {
             console.log('user exist dont need signup');
             res.cookie('userExist', true, { maxAge: 20000 });
+            res.cookie('set', 'true', { maxAge: 20000 })
+            res.cookie('set2', true, { maxAge: 20000 })
+            res.cookie('set3', 'true', { maxAge: 20000, httpOnly: true })
             return res.redirect(`${process.env.NEXT_URL}/signinsignup?#`)
         } else {
             let newUser = new UserModel({ name, email, password, role: 'user', stage: 1 })
