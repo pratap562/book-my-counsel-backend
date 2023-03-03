@@ -10,9 +10,9 @@ const setIntent = (req, res, next) => {
     next()
 }
 
-oauthForLogin.get('/', setIntent, passportForLogin.authenticate('google', { scope: ['profile', 'email'], callbackURL: `${process.env.OWN_URL}/auth/google/login/callback` }), (req, res, next) => { console.log(req.body, 'xxxxxxxxxxxxxxxxxxxx'); next(); })
+oauthForLogin.get('/', setIntent, passportForLogin.authenticate('google', { scope: ['profile', 'email'], callbackURL: `${process.env.NEXT_URL}/api/auth/google/login/callback` }), (req, res, next) => { console.log(req.body, 'xxxxxxxxxxxxxxxxxxxx'); next(); })
 
-oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google', { failureRedirect: '/login', session: false, callbackURL: `${process.env.OWN_URL}/auth/google/login/callback` }),
+oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google', { failureRedirect: '/login', session: false, callbackURL: `${process.env.NEXT_URL}/api/auth/google/login/callback` }),
     async function (req, res) {
         //sucessfull authentication, redirect home.
         // let newuser = new UserModel(req.user)
@@ -33,7 +33,7 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
             // res.cookie('justLogdin', true, { maxAge: 1000 * 60 * 60 });
             res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
             res.cookie('refresh_token', refresh_token, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true });
-            res.cookie('detail', { role: userExist[0].role, name: userExist[0].name })
+            // res.cookie('detail', { role: userExist[0].role, name: userExist[0].name })
             res.cookie('detail', `${userExist[0].role}-${userExist[0].name}`)
 
             // send them to choose role page
@@ -49,7 +49,7 @@ oauthForLogin.get('/callback', setIntent, passportForLogin.authenticate('google'
         } else {
             console.log('oyeee');
             res.cookie('userExist', false, { maxAge: 200000000 })
-            return res.redirect(`${process.env.NEXT_URL}/signinsignup`)
+            return res.redirect(`${process.env.NEXT_URL}/signinsignup?#`)
         }
 
 

@@ -27,7 +27,7 @@ const port = 3200
 // }))
 // app.use(cors())
 app.use(cors({
-    origin: ['https://book-my-counsel-frontend-hdsr.vercel.app', process.env.NEXT_URL, 'https://checkout.stripe.com'],
+    origin: 'https://checkout.stripe.com',
     credentials: true
 }));
 // httpserver.use(cors)
