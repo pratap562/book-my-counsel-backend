@@ -29,7 +29,6 @@ paymentROuter.post("/", async (req, res) => {
     success_url: `${process.env.RES_URL}/paymentPage/Success`,
     cancel_url: `${process.env.RES_URL}/paymentPage/cancel`,
   });
-
   res.send({ url: session.url });
 })
 
