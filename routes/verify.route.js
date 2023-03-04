@@ -7,10 +7,18 @@ const authenticate = require('../middleware/Authentication/auth')
 
 verify.get('/pending', authenticate, autharize(['admin']), async (req, res) => {
     // get all the people who need to verify
+    // limit(limit * pages)
+    // skip((pages - 1) * limit)
+    const limit = 2
+    let { pages } = req.query || 1
+    if (pages == undefined) {
+        pages = 1
+    }
+    console.log(pages, limit, 'limi')
     let data
     try {
-        data = await AdvocateModel.find({ stage: 2 })
-        console.log(data)
+        data = await AdvocateModel.find({ stage: 2 }).limit((limit * pages)).skip(((pages - 1) * limit))
+        // console.log(data)
         return res.status(200).send({ data })
     } catch (err) {
         return res.status(500).send({ "err": "internal server error" })
@@ -35,9 +43,14 @@ verify.get('/detail/:advocateId', async (req, res) => {
 
 verify.get('/done', authenticate, autharize(['admin']), async (req, res) => {
     // get all the people who are verifyied
+    const limit = 2
+    let { pages } = req.query || 1
+    if (pages == undefined) {
+        pages = 1
+    }
     let data
     try {
-        data = await AdvocateModel.find({ stage: 3 })
+        data = await AdvocateModel.find({ stage: 3 }).limit(limit * pages).skip((pages - 1) * limit)
         console.log(data)
         return res.status(200).send({ data })
     } catch (err) {
