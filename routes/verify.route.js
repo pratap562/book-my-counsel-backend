@@ -9,7 +9,7 @@ verify.get('/pending', authenticate, autharize(['admin']), async (req, res) => {
     // get all the people who need to verify
     // limit(limit * pages)
     // skip((pages - 1) * limit)
-    const limit = 2
+    const limit = 6
     let { pages } = req.query || 1
     if (pages == undefined) {
         pages = 1
@@ -43,7 +43,7 @@ verify.get('/detail/:advocateId', async (req, res) => {
 
 verify.get('/done', authenticate, autharize(['admin']), async (req, res) => {
     // get all the people who are verifyied
-    const limit = 2
+    const limit = 6
     let { pages } = req.query || 1
     if (pages == undefined) {
         pages = 1
@@ -81,6 +81,7 @@ verify.patch('/:userid', authenticate, autharize(['admin']), async (req, res) =>
 })
 
 verify.delete('/:userid', authenticate, autharize(['admin']), async (req, res) => {
+    // return res.status(200).send({ "msg": "aspire advocate sucessfull removed" })
     console.log(req.params)
     const userid = req.params.userid
     console.log(userid, 'l');
