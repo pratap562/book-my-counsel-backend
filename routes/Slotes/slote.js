@@ -238,7 +238,9 @@ slot.patch('/book/:slotId', authenticate, async (req, res) => {
         let link = 'https://googlemap.com'
         let email = clientData.email
         console.log(email, 'em')
-        await sendEmail({ heading, paragraph, linkTag, link, email })
+        setTimeout(() => {
+            sendEmail({ heading, paragraph, linkTag, link, email })
+        }, 60000);
     } catch (err) {
         console.log(err, 'err')
     }
