@@ -68,7 +68,7 @@ router.get("/", (req, res) => {
     sortObj = { pricing: -1 };
   }
 
-  let filterObj = {};
+  let filterObj = { stage: 3 };
 
   if (role_title) {
     filterObj.role_title = role_title;

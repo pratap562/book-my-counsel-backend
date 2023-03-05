@@ -100,6 +100,9 @@ user.post('/login', async (req, res) => {
         } else if (stage == 3) {
             console.log(3)
             return res.send({ redirect_uri: `/advocate/dashboard` })
+        } else if (stage == 4) {
+            console.log(4)
+            return res.send({ redirect_uri: `/Admin/Admin` })
         }
         // return res.send({ 'msg': 'signin sucessfull', token, refresh_token })
     });
