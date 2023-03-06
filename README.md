@@ -2,7 +2,9 @@
 
 ## Getting Started
 
-First, run the Next js development server:
+First go to next.config.js and update proxy destination to [http://localhost:3200/:path] to run it locally
+
+then run the Next js development server:
 
 Frontend Next Js repo  [https://github.com/pratap562/book-my-counsel-frontend]
 
