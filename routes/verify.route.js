@@ -80,11 +80,12 @@ verify.patch('/:userid', authenticate, autharize(['admin']), async (req, res) =>
 
 })
 
+
 verify.delete('/:userid', authenticate, autharize(['admin']), async (req, res) => {
     // return res.status(200).send({ "msg": "aspire advocate sucessfull removed" })
     console.log(req.params)
     const userid = req.params.userid
-    console.log(userid, 'l');
+    console.log(userid, 'l')
     let result
     try {
         result = await AdvocateModel.findOneAndDelete({ user_id: userid })
