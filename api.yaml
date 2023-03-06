@@ -1,0 +1,462 @@
+swagger: "2.0"
+info:
+  title: Book My Counsel
+  description: This is my project API Documentation
+  version: 1.0
+  contact:
+    email: kumpratap562@gmail.com
+  liscence:
+    name: Apache 2.0
+    url: "http://www.apache.org/liscences/LIS"
+  servers:
+    -url: http://localhost:3200
+    description: THis is my local Server
+    -url: https://book-my-counsel-rcdr.onrender.com
+    description: This is my original URL
+schemes: [https,http]
+
+
+#Return Users From get request
+paths:
+  # /string:
+  #   get:
+  #     summary: Returns a string.
+  #     description: String Chechup
+  #     responses:
+  #       200:    # status code
+  #         description: Successul Response
+  #         schema: 
+  #           type: string
+  #           example: "Users String"
+  #       400:
+  #         description: User Error
+  #         schema: 
+  #           type: string
+  #           example: "Some Error "
+
+#Returns a User
+  /user/signup:
+    post:
+      tags:
+        - Auth
+      summary: Signup endpoint
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+           $ref: "#/components/schemas/Usersignup"
+      responses:
+        '200':
+          description: OK
+
+  /user/login:
+    post:
+      tags:
+        - Auth
+      summary: Login endpoint
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+           $ref: "#/components/schemas/Userlogin"
+      responses:
+        '200':
+          description: OK
+
+  /user/logout:
+    get:
+      tags:
+        - Auth
+      summary: Logout endpoint
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+
+  /user/updatejwt:
+    get:
+      tags:
+        - Auth
+      summary: Update jwt token
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+
+
+
+
+
+  /advocate/verify/pending:
+    get:
+      tags:
+        - Varification
+      summary: Pengin Advocate for Varification
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+
+
+  /advocate/verify/done:
+    get:
+      tags:
+        - Varification
+      summary: Veryfied Advocate 
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+
+  /advocate/verify/detail/{advocateId}:
+    get:
+      tags:
+        - Varification
+      summary: Get Advocate Detail
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: advocateId
+          in: path
+          required: true
+          schema:
+            type : string
+      responses:
+        '200':
+          description: OK
+
+
+  /advocate/verify/detail/{userid}:
+    patch:
+      tags:
+        - Varification
+      summary: Verify one Advocate
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          schema:
+            type : string
+      responses:
+        '200':
+          description: OK
+
+
+  /advocate/verify/detail/{userid}/:
+    delete:
+      tags:
+        - Varification
+      summary: Delete a Advocate
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          schema:
+            type : string
+      responses:
+        '200':
+          description: OK
+
+
+  /slotes/add:
+    post :
+      tags:
+        - Slots
+      summary: Add slots of a Advocate
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+
+  /slotes/{advocateId}:
+    get:
+      tags:
+        - Slots
+      summary: get whole week slot of a advocate
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: advocateId
+          in: path
+          required: true
+          schema:
+            type : string
+      responses:
+        '200':
+          description: OK
+
+
+  /slotes/my/all:
+    get:
+      tags:
+        - Slots
+      summary: get your whole slots as a advocate
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+
+
+  /slotes/book/{slotId}:
+    patch:
+      tags:
+        - Slots
+      summary: Book a Slot
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: slotId
+          in: path
+          required: true
+          schema:
+            type : string
+      responses:
+        '200':
+          description: OK
+
+
+
+
+
+  # /user:
+  #   get:
+  #     summary: Returns a list of users.
+  #     description: People Who are already registered
+  #     responses:
+  #       200:    # status code
+  #         description: Successul Response
+  #         schema: 
+  #           type: object
+  #           properties:
+  #             id:
+  #               type: integer
+  #             name:
+  #               type: string
+
+#Returns an array of Users
+  # /users:
+  #   get:
+  #     summary: Returns a list of users.
+  #     description: People Who are already registered
+  #     responses:
+  #       200:    # status code
+  #         description: Successul Response
+  #         schema: 
+  #           type: array
+  #           items: 
+  #             type: object
+  #             properties:
+  #               id:
+  #                 type: integer
+  #               name:
+  #                 type: string
+
+
+#Get Request with path id
+  # /users/{userId}:
+  #   get:
+  #     summary: Returns a user by ID.
+  #     description: Returns the Specific User
+  #     parameters:
+  #       - name: userId
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type : integer
+  #           format: int64
+  #     responses: 
+  #       '200':
+  #         description: OK
+  #         schema:
+  #           type: object
+  #           example: {name: syed}
+
+#Post json/body & Body required
+  # /create:
+  #   post:
+  #     summary: Adds a new user
+  #     produces:
+  #       - application/json
+  #     consumes:
+  #       - application/json
+  #     parameters:
+  #       - in: body
+  #         name: body
+  #         schema:
+  #           type: object
+  #           required:
+  #             - name
+  #             - id
+  #           properties:
+  #             id:
+  #               type: integer
+  #             name:
+  #               type: string
+  #     responses:
+  #       '200':
+  #         description: OK
+
+
+#Defining Body Reference
+
+
+#Query
+#Get Query
+  # /usersQuery:
+  #   get:
+  #     summary: Returns a user by ID.
+  #     description: Returns the Specific User
+  #     parameters:
+  #       - in: query
+  #         name: id
+  #         type: integer
+  #         enum: [1, 2]
+  #         required: true
+  #       # - in: query
+  #       #   name: id
+  #       #   type: integer
+  #       #   enum: [1, 2]
+  #       #   required: true
+  #     responses: 
+  #       '200':
+  #         description: OK
+  #         schema:
+  #           type: object
+  #           example: {name: syed,id: 21}
+
+
+
+#File Upload Multiform Data
+  # /upload:
+  #   post:
+  #     tags:
+  #       - Upload
+  #     summary: Upload Video/Image for Inferring
+  #     consumes:
+  #       - multipart/form-data
+  #     parameters:
+  #       - in: formData
+  #         name: file
+  #         type: file
+  #         required: true
+  #         description: The file to upload.
+  #       # - in: formData
+  #       #   name: app
+  #       #   type: string
+  #       #   required: true
+  #       #   description: Name of the model.
+  #       # - in: formData
+  #       #   name: id
+  #       #   type: string
+  #       #   required: true
+  #       #   description: Some random Id.
+  #     responses:
+  #       200:
+  #         description: Successful Response
+  #       400:
+  #         description: User Error
+  #       500:
+  #         description: Internal Server Error
+
+
+#In Headers
+  # /string:
+  #   get:
+  #     summary: Checks if the server is alive
+  #     parameters:
+  #       - in: header
+  #         name: X-Request-ID
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #         required: true
+  #     responses:
+  #       200:
+  #         description: Successful Response
+  #       400:
+  #         description: User Error
+  #       500:
+  #         description: Internal Server Error
+
+#Cokies
+  # /ping:
+  #   get:
+  #     summary: Checks if the server is alive
+  #     parameters:
+  #       - in: cookie
+  #         name: debug
+  #         schema:
+  #           type: integer
+  #           enum: [0, 1]
+  #           default: 0
+  #       - in: cookie
+  #         name: csrftoken
+  #         schema:
+  #           type: string
+
+
+components:
+  schemas:
+    Userlogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    Usersignup:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string

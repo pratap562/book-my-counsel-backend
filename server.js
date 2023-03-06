@@ -15,6 +15,15 @@ const passwordforgot = require('./routes/passwordforgot.route')
 const verify = require('./routes/verify.route')
 const slot = require('./routes/Slotes/slote')
 const paymentROuter = require('./routes/paymentgateway.route')
+
+const swaggerUI = require("swagger-ui-express");
+const fileUpload = require("express-fileupload");
+const YAML = require("yamljs");
+const swaggerJSDocs = YAML.load("./api.yaml");
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJSDocs));
+app.use(fileUpload());
+
 require('dotenv').config()
 const port = 3200
 
