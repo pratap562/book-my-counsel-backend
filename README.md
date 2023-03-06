@@ -28,3 +28,10 @@ Backend will run on (http://localhost:3200)
 there is one env.text file which contain all environment variables
 
 You need to create a .env file with all the variables you can change the backend and fronted port and url
+
+
+## Deployed links
+
+Frontend Deployed link :- https://book-my-counsel-frontend.vercel.app
+
+Backend Deployed link :- https://book-my-counsel-rcdr.onrender.com
