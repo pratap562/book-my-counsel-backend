@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-then run the Next js development server:
+first run the Next js development server:
 
 Frontend Next Js repo  [https://github.com/pratap562/book-my-counsel-frontend]
 
