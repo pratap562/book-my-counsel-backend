@@ -100,7 +100,7 @@ const sendEmail = async ({ heading, paragraph, link, subject, linkTag, email }) 
     smtpTransport = nodemailer.createTransport(smtpTransport({
       service: 'gmail',
       auth: {
-        user: 'bookmycounsel247@gmail.com',
+        user: 'bookmycounsel248@gmail.com',
         pass: process.env.GOOGLE_APP_PASSWORD_MAIL
       }
     }));
